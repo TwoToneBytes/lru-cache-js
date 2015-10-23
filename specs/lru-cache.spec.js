@@ -2,17 +2,6 @@ describe('lru-cache', function () {
     var LruCache = require('../src/lru-cache'),
         _ = require('lodash');
 
-    function givenFullCacheOfSize(cacheSize) {
-        var lruCache = new LruCache(cacheSize);
-
-        _.range(1, cacheSize + 1)
-            .forEach(function (n) {
-                lruCache.put(n.toString(), n);
-            });
-
-        return lruCache;
-    }
-
     it('should only keep the last `n` in memory', function () {
         var CACHE_SIZE = 3,
             lruCache = givenFullCacheOfSize(CACHE_SIZE);
@@ -44,4 +33,15 @@ describe('lru-cache', function () {
         expect(lruCache.tail.older).toEqual(jasmine.objectContaining({value: 2}));
         expect(lruCache.tail.older.older).toEqual(jasmine.objectContaining({value: 1}));
     });
+
+    function givenFullCacheOfSize(cacheSize) {
+        var lruCache = new LruCache(cacheSize);
+
+        _.range(1, cacheSize + 1)
+            .forEach(function (n) {
+                lruCache.put(n.toString(), n);
+            });
+
+        return lruCache;
+    }
 });
